@@ -1,0 +1,8 @@
+com/vortex/StreamProcessingService.class
+com/vortex/TransactionRepository.class
+com/vortex/VortexApplication.class
+com/vortex/WebSocketConfig.class
+com/vortex/TransactionEntity.class
+com/vortex/IngestController.class
+com/vortex/FraudDetectionService.class
+com/vortex/StreamProcessingService$TransactionRecord.class

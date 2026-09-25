@@ -1,0 +1,47 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8080:8080"
+    networks:
+      - vortex-network
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/127.0.0.1/8080'"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 15s
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    networks:
+      - vortex-network
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  simulator:
+    build:
+      context: ./simulators
+    environment:
+      BACKEND_URL: http://backend:8080/api/ingest
+    networks:
+      - vortex-network
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  ml-service:
+    build: ./ml-service
+    ports:
+      - "5000:5000"
+    networks:
+      - vortex-network
+
+networks:
+  vortex-network:
+    driver: bridge
